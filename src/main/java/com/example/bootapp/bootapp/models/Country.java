@@ -9,9 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "country")
@@ -21,7 +19,7 @@ import java.util.List;
 public class Country implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -44,20 +42,37 @@ public class Country implements Serializable{
     private String modifiedBy;
 
     @OneToMany(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "country"
     )
-    private List<City> cityList = new ArrayList<>();
+    private Set<City> cityList = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "countries")
+    private Set<CountryUnion> countryUnions = new HashSet<>();
 
     public Country() {
     }
 
-    public List<City> getCityList() {
-        return cityList;
+    public Set<CountryUnion> getCountryUnions() {
+        return countryUnions;
     }
 
-    public void setCityList(List<City> cityList) {
-        this.cityList = cityList;
+    public void setCountryUnions(Set<CountryUnion> countryUnions) {
+        this.countryUnions = countryUnions;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLanguage() {
@@ -74,14 +89,6 @@ public class Country implements Serializable{
 
     public void setPopulation(Long population) {
         this.population = population;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getCreatedAt() {
@@ -108,16 +115,11 @@ public class Country implements Serializable{
         this.modifiedBy = modifiedBy;
     }
 
-    @Override
-    public String toString() {
-        return "Country{" +
-                "id=" + id +
-                ", language='" + language + '\'' +
-                ", population=" + population +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", modifiedBy='" + modifiedBy + '\'' +
-                ", cityList=" + cityList +
-                '}';
+    public Set<City> getCityList() {
+        return cityList;
+    }
+
+    public void setCityList(Set<City> cityList) {
+        this.cityList = cityList;
     }
 }
