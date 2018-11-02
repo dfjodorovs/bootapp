@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Spring Boot Thymeleaf</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+</head>
+<body>
+<h1>City List</h1>
+<a href="addCity">Add City</a>
+<br/><br/>
+<div>
+	<table border="1">
+		<tr>
+			<th>Name</th>
+			<th>Population</th>
+		</tr>
+		<tr th:each ="city : ${cities}">
+			<td th:utext="${city.name}">...</td>
+			<td th:utext="${city.population}">...</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

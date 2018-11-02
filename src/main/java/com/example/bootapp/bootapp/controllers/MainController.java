@@ -3,9 +3,11 @@ package com.example.bootapp.bootapp.controllers;
 import com.example.bootapp.bootapp.models.City;
 import com.example.bootapp.bootapp.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,5 +28,18 @@ public class MainController {
         return cityRepository.save(city);
     }
 
+    @GetMapping("/cities")
+    public List<City> getCities(){
+        return  cityRepository.findAll();
+    }
+
+    @DeleteMapping("/cities/{id}")
+    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long cityId) {
+        City note = cityRepository.findById(cityId).get();
+
+        cityRepository.delete(note);
+
+        return ResponseEntity.ok().build();
+    }
 
 }
