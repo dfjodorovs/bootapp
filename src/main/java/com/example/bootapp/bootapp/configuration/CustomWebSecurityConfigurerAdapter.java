@@ -42,11 +42,24 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
-                    .authorizeRequests()
-                .antMatchers("/**").hasAnyRole("ADMIN")
+//            http.csrf().disable()
+//                    .authorizeRequests()
+//                .antMatchers("/**").hasAnyRole("ADMIN")
+//                .and()
+//                .httpBasic();
+        http.csrf().disable()
+                .authorizeRequests()
+
+//                .antMatchers("/cityList","/city").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin()
+                    .loginPage("/login")
+                    .successForwardUrl("")
+                        .permitAll()
+                .and()
+                    .logout()
+                        .permitAll();
     }
 
     @Bean

@@ -3,7 +3,6 @@ package com.example.bootapp.bootapp.controllers;
 import com.example.bootapp.bootapp.models.City;
 import com.example.bootapp.bootapp.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +15,17 @@ import java.util.Map;
 public class WelcomeController {
     private String message = "Hello World";
 
+//    public static final String
+
     @Autowired
     private CityRepository cityRepository;
 
-    @GetMapping("welcome")
+    @GetMapping("/login")
+    public String login() {
+        return "/login";
+    }
+
+    @GetMapping("/")
     public ModelAndView createUserView() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("welcome");
@@ -29,7 +35,7 @@ public class WelcomeController {
     }
 
     @RequestMapping(value = "/processCityForm", method= RequestMethod.POST)
-    public String processForm(@ModelAttribute(value="city") City city) {
+    public String processForm(@ModelAttribute(value="city") City city, Model model) {
         System.out.println("CITY FROM FORM:" + city);
         cityRepository.save(city);
         return "welcome";
