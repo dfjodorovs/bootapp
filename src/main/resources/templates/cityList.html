@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Spring Boot Thymeleaf</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,7 +18,7 @@
 	<a th:href="@{/logout}">Sign Out</a>
 
 
-
+	<div sec:authentication="name"></div>
 	<table th:if="${not #lists.isEmpty(cities)}" border="1">
 		<tr>
 			<th th:text="${cityId}">Name</th>

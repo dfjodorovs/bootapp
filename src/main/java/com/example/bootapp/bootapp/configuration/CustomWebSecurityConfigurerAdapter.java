@@ -55,7 +55,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .successForwardUrl("")
+                    .successForwardUrl("/")
                         .permitAll()
                 .and()
                     .logout()
