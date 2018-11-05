@@ -11,7 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Map;
 
+
+
+//        index.html
+//        login.html ( ir )
+//        city.html (add, show list)
+//        country.html **
+//        about.html
+
+
+
+
+
 @Controller
+@RequestMapping("old")
 public class WelcomeController {
     private String message = "Hello World";
 

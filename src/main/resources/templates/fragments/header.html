@@ -7,6 +7,13 @@
 </head>
 <body>
     <div th:fragment="header">
+        <p>Menu</p>
+        <ol>
+            <li><a href="index.html" th:href="@{/}">Home</a></li>
+            <li><a href="about.html" th:href="@{/about}">About</a></li>
+            <li><a href="city.html" th:href="@{/city}">City</a></li>
+            <li><a href="country.html" th:href="@{/country}">Country</a></li>
+        </ol>
         <a th:href="@{/logout}">Sign Out</a>
     </div>
 </body>
