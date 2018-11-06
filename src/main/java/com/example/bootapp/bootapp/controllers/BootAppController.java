@@ -1,10 +1,27 @@
 package com.example.bootapp.bootapp.controllers;
 
+import com.example.bootapp.bootapp.models.BootAppUser;
+import com.example.bootapp.bootapp.models.City;
+import com.example.bootapp.bootapp.repositories.BootAppUserRepository;
+import com.example.bootapp.bootapp.repositories.CityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class BootAppController {
+
+    @Autowired
+    private BootAppUserRepository bootAppUserRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -13,6 +30,8 @@ public class BootAppController {
 
     @GetMapping("/")
     public String getHome() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("username: " + auth.getName());
         return "/index";
     }
 
@@ -22,13 +41,35 @@ public class BootAppController {
     }
 
     @GetMapping("/city")
-    public String getCity() {
-        return "/city";
+    public String getCity(Model model) {
+
+        model.addAttribute("cities",cityRepository.findAll());
+        model.addAttribute("newCity", new City());
+
+        return "city";
+    }
+
+    @RequestMapping(value = { "/addCity" }, method = RequestMethod.POST)
+    public String saveCity(Model model, @ModelAttribute("newCity") City newCity) {
+        String name = newCity.getName();
+        if (name != null) {
+            cityRepository.save(newCity);
+            return "redirect:/city";
+        }
+        return "redirect:/city";
     }
 
     @GetMapping("/country")
     public String getCountry() {
         return "/country";
+    }
+
+    @RequestMapping(value = { "/createUser" }, method = RequestMethod.POST)
+    public String createNewUser(Model model, @ModelAttribute("newUser") BootAppUser user) {
+
+        bootAppUserRepository.save(user);
+
+        return "index";
     }
 
 }

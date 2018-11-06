@@ -4,8 +4,10 @@ import com.example.bootapp.bootapp.models.City;
 import com.example.bootapp.bootapp.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,8 @@ public class MainController {
     @Autowired
     private CityRepository cityRepository;
 
+    @Secured("ADMIN")
+    @RolesAllowed("")
     @GetMapping("/cities/{id}")
     public Optional<City> getCityById(@PathVariable(value = "id") Long cityId) {
         return cityRepository.findById(cityId);

@@ -3,12 +3,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>City page</title>
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header">
 
 </div>
 <h2 th:text="#{city.text}">placeholder</h2>
+
+<div class="col-4"></div>
+<form class="col-4" th:action="@{/addCity}"
+      th:object="${newCity}" method="POST">
+    <div class="input-group">
+        <input th:field="*{name}" type="text" class="form-control" placeholder="City Name" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <input th:field="*{population}" type="text" class="form-control" placeholder="Population count" aria-describedby="basic-addon2">
+    </div>
+    <button type="submit" class="btn btn-default">Create</button>
+    <br/>
+    <div class="row">
+        <div class="col-4" th:utext="#{city.list.header.name}">City Name</div>
+        <div class="col-4" th:utext="#{city.list.header.population}">Population</div>
+    </div>
+    <div class="row" th:each ="city : ${cities}">
+        <div class="col-4" th:utext="${city.name}">...</div>
+        <div class="col-4" th:utext="${city.population}">...</div>
+    </div>
+</form>
+<div class="col-4"></div>
+
 </body>
 </html>
