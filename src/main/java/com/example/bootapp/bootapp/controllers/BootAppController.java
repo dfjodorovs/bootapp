@@ -9,10 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class BootAppController {
@@ -40,6 +40,13 @@ public class BootAppController {
         return "/about";
     }
 
+    @GetMapping("/loginError")
+    public String getLginError(@RequestParam(value = "message") String search, Model model) {
+        model.addAttribute("errorMsg", search);
+        return "error";
+    }
+
+
     @GetMapping("/city")
     public String getCity(Model model) {
 
@@ -63,6 +70,13 @@ public class BootAppController {
     public String getCountry() {
         return "/country";
     }
+
+    @GetMapping("/singup")
+    public String getSingUp(Model model) {
+        model.addAttribute("newUser", new BootAppUser());
+        return "singup";
+    }
+
 
     @RequestMapping(value = { "/createUser" }, method = RequestMethod.POST)
     public String createNewUser(Model model, @ModelAttribute("newUser") BootAppUser user) {
