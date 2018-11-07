@@ -71,10 +71,10 @@ public class BootAppController {
         return "/country";
     }
 
-    @GetMapping("/singup")
+    @GetMapping("/signup")
     public String getSingUp(Model model) {
         model.addAttribute("newUser", new BootAppUser());
-        return "singup";
+        return "signup";
     }
 
 

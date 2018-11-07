@@ -1,5 +1,7 @@
 package com.example.bootapp.bootapp.services;
 
+import com.example.bootapp.bootapp.models.BootAppUser;
+import com.example.bootapp.bootapp.repositories.BootAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -18,8 +20,14 @@ public class UserAuthenticatonService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private BootAppUserRepository bootAppUserRepository;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+        BootAppUser byUserName = bootAppUserRepository.findByUserName(s);
+
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new GrantedAuthority() {
             @Override
@@ -28,7 +36,10 @@ public class UserAuthenticatonService implements UserDetailsService {
             }
         });
 
-        User user = new User("den",passwordEncoder.encode("pass"),authorityList);
+        User user = new User(
+                byUserName.getUserName(),
+                passwordEncoder.encode(byUserName.getPassword()),
+                authorityList);
 
         return user;
     }
